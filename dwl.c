@@ -1263,6 +1263,7 @@ deck(Monitor *m)
 		} else {
 			resize(c, (struct wlr_box){.x = m->w.x + mw, .y = m->w.y,
 				.width = m->w.width - mw, .height = m->w.height}, 0);
+		        snprintf(m->ltsymbol, LENGTH(m->ltsymbol), "%d", n-1);
 			if (c == focustop(m))
 				wlr_scene_node_raise_to_top(&c->scene->node);
 		}
