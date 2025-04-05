@@ -46,9 +46,9 @@ static const Rule rules[] = {
 /* layout(s) */
 static const Layout layouts[] = {
 	/* symbol     arrange function */
-	{ "M",      monocle },
-	{ "T",      tile },
-	{ "F",      NULL },    /* no layout function means floating behavior */
+	{ "M",      monocle },
+	{ "T",      tile },
+	{ "F",      NULL },    /* no layout function means floating behavior */
 };
 
 /* monitors */
@@ -136,12 +136,14 @@ static const enum libinput_config_tap_button_map button_map = LIBINPUT_CONFIG_TA
 
 /* commands */
 static const char *termcmd[] = { "st", NULL };
+static const char *filecmd[] = { "st", "-e", "vifmrun", NULL };
 static const char *menucmd[] = { "dmenu_run", "-F", "-i", "-c", "-l", "20", NULL };
 
 static const Key keys[] = {
 	/* Note that Shift changes certain key codes: c -> C, 2 -> at, etc. */
 	/* modifier                  key                function          argument */
 	{ MODKEY|WLR_MODIFIER_SHIFT, XKB_KEY_Escape,    quit,             {0} },
+	{ MODKEY|WLR_MODIFIER_SHIFT, XKB_KEY_B,         togglebar,        {0} },
 	{ MODKEY|WLR_MODIFIER_SHIFT, XKB_KEY_D,         togglefloating,   {0} },
 	{ MODKEY|WLR_MODIFIER_SHIFT, XKB_KEY_F,         togglefullscreen, {0} },
 	{ MODKEY,                    XKB_KEY_h,         focusstack,       {.i = -1} },
@@ -165,6 +167,7 @@ static const Key keys[] = {
 	{ MODKEY|WLR_MODIFIER_SHIFT, XKB_KEY_greater,   tagmon,           {.i = WLR_DIRECTION_RIGHT} },
 
 	{ MODKEY,                    XKB_KEY_r,          spawn,          {.v = menucmd} },
+	{ MODKEY,                    XKB_KEY_f,          spawn,          {.v = filecmd} },
 	{ MODKEY,                    XKB_KEY_Return,     spawn,          {.v = termcmd} },
 
         TAGKEYS(XKB_KEY_1, XKB_KEY_exclam,      0),
