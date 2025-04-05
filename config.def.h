@@ -145,7 +145,6 @@ static const Key keys[] = {
 	/* Note that Shift changes certain key codes: c -> C, 2 -> at, etc. */
 	/* modifier                  key                function          argument */
 	{ MODKEY|WLR_MODIFIER_SHIFT, XKB_KEY_Escape,    quit,             {0} },
-	{ MODKEY|WLR_MODIFIER_SHIFT, XKB_KEY_B,         togglebar,        {0} },
 	{ MODKEY|WLR_MODIFIER_SHIFT, XKB_KEY_D,         togglefloating,   {0} },
 	{ MODKEY|WLR_MODIFIER_SHIFT, XKB_KEY_F,         togglefullscreen, {0} },
 	{ MODKEY,                    XKB_KEY_h,         focusstack,       {.i = -1} },
