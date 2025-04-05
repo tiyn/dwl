@@ -6,6 +6,7 @@
 /* appearance */
 static const int sloppyfocus               = 1;  /* focus follows mouse */
 static const int bypass_surface_visibility = 0;  /* 1 means idle inhibitors will disable idle tracking even if it's surface isn't visible  */
+static const int smartborders              = 1;
 static const unsigned int borderpx         = 1;  /* border pixel of windows */
 static const float rootcolor[]             = COLOR(0x222222ff);
 static const float bordercolor[]           = COLOR(0x444444ff);
@@ -144,7 +145,6 @@ static const Key keys[] = {
 	/* Note that Shift changes certain key codes: c -> C, 2 -> at, etc. */
 	/* modifier                  key                function          argument */
 	{ MODKEY|WLR_MODIFIER_SHIFT, XKB_KEY_Escape,    quit,             {0} },
-	{ MODKEY|WLR_MODIFIER_SHIFT, XKB_KEY_B,         togglebar,        {0} },
 	{ MODKEY|WLR_MODIFIER_SHIFT, XKB_KEY_D,         togglefloating,   {0} },
 	{ MODKEY|WLR_MODIFIER_SHIFT, XKB_KEY_F,         togglefullscreen, {0} },
 	{ MODKEY,                    XKB_KEY_h,         focusstack,       {.i = -1} },
