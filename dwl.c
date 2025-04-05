@@ -1271,7 +1271,7 @@ cursorwarptohint(void)
 void
 deck(Monitor *m)
 {
-	unsigned int mw, my;
+	unsigned int mw, my, draw_borders = 1;
 	int i, n = 0;
 	Client *c;
 
@@ -1280,6 +1280,9 @@ deck(Monitor *m)
 			n++;
 	if (n == 0)
 		return;
+
+	if (n == smartborders)
+		draw_borders = 0;
 
 	if (n > m->nmaster)
 		mw = m->nmaster ? round(m->w.width * m->mfact) : 0;
@@ -1291,11 +1294,11 @@ deck(Monitor *m)
 			continue;
 		if (i < m->nmaster) {
 			resize(c, (struct wlr_box){.x = m->w.x, .y = m->w.y + my, .width = mw,
-				.height = (m->w.height - my) / (MIN(n, m->nmaster) - i)}, 0);
+				.height = (m->w.height - my) / (MIN(n, m->nmaster) - i)}, 0, draw_borders);
 			my += c->geom.height;
 		} else {
 			resize(c, (struct wlr_box){.x = m->w.x + mw, .y = m->w.y,
-				.width = m->w.width - mw, .height = m->w.height}, 0);
+				.width = m->w.width - mw, .height = m->w.height}, 0, draw_borders);
 		        snprintf(m->ltsymbol, LENGTH(m->ltsymbol), "%d", n-1);
 			if (c == focustop(m))
 				wlr_scene_node_raise_to_top(&c->scene->node);
