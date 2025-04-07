@@ -38,10 +38,11 @@ static const Rule rules[] = {
 	{ "threema-web",      NULL,                                1 << 4, 0,   1 },
 	{ "thunderbird",      NULL,                                1 << 4, 0,   1 },
 	{ "Sonixd",           NULL,                                1 << 8, 0,   1 },
-	{ "KeePassXC",        "Unlock Database - KeePassXC",       1 << 1, 0,   0 },
 	{ "KeePassXC",        NULL,                                1 << 8, 0,   0 },
+	{ "KeePassXC",        "Unlock Database - KeePassXC",       1 << 1, 1,   0 },
 	{ "easyeffects",      NULL,                                1 << 8, 0,   1 },
 	{ "pavucontrol",      NULL,                                1 << 8, 0,   1 },
+        { "nextcloud",        NULL,                                     0, 1,  -1 },
 };
 
 /* layout(s) */
