@@ -79,6 +79,18 @@ static const struct xkb_rule_names xkb_rules = {
 	.options = NULL,
 };
 
+/* input devices */
+static const InputRule inputrules[] = {
+	/* name                      kbcreate                 ptrcreate      */
+	/* ignore bad device - like a touchpad ;) */
+	{ "BAD DEVICE",              NULL,                    NULL                },
+	/* ungroup ydotool device - fixes a bug */
+	{ "ydotoold virtual device", createungroupedkeyboard, createpointer       },
+	/* put your touchpad name here to enable toggle touchpad */
+	{ "SYNA8020:00 06CB:CE5C Touchpad",   createkeyboard,          createtogglepointer },
+	{ NULL,                      createkeyboard,          createpointer       },
+};
+
 static const int repeat_rate = 25;
 static const int repeat_delay = 600;
 
@@ -171,6 +183,7 @@ static const Key keys[] = {
 	{ MODKEY,                    XKB_KEY_r,          spawn,          {.v = menucmd} },
 	{ MODKEY,                    XKB_KEY_f,          spawn,          {.v = filecmd} },
 	{ MODKEY,                    XKB_KEY_Return,     spawn,          {.v = termcmd} },
+	{ MODKEY,                    XKB_KEY_space,      togglepointer,  {0} },
 
         TAGKEYS(XKB_KEY_1, XKB_KEY_exclam,      0),
         TAGKEYS(XKB_KEY_2, XKB_KEY_quotedbl,    1),
