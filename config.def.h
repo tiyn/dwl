@@ -60,6 +60,18 @@ static const struct xkb_rule_names xkb_rules = {
 	.options = NULL,
 };
 
+/* input devices */
+static const InputRule inputrules[] = {
+	/* name                      kbcreate                 ptrcreate      */
+	/* ignore bad device - like a touchpad ;) */
+	{ "BAD DEVICE",              NULL,                    NULL                },
+	/* ungroup ydotool device - fixes a bug */
+	{ "ydotoold virtual device", createungroupedkeyboard, createpointer       },
+	/* put your touchpad name here to enable toggle touchpad */
+	{ "Elan Touchpad",           createkeyboard,          createtogglepointer },
+	{ NULL,                      createkeyboard,          createpointer       },
+};
+
 static const int repeat_rate = 25;
 static const int repeat_delay = 600;
 
@@ -142,6 +154,7 @@ static const Key keys[] = {
 	{ MODKEY,                    XKB_KEY_space,      setlayout,      {0} },
 	{ MODKEY|WLR_MODIFIER_SHIFT, XKB_KEY_space,      togglefloating, {0} },
 	{ MODKEY,                    XKB_KEY_e,         togglefullscreen, {0} },
+	{ MODKEY,                    XKB_KEY_u,          togglepointer,  {0} },
 	{ MODKEY,                    XKB_KEY_0,          view,           {.ui = ~0} },
 	{ MODKEY|WLR_MODIFIER_SHIFT, XKB_KEY_parenright, tag,            {.ui = ~0} },
 	{ MODKEY,                    XKB_KEY_comma,      focusmon,       {.i = WLR_DIRECTION_LEFT} },
