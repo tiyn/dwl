@@ -150,6 +150,12 @@ typedef struct {
 } DwlIpcOutput;
 
 typedef struct {
+	const char *name;
+	void (*kbcreate)(struct wlr_keyboard *);
+	void (*ptrcreate)(struct wlr_pointer *);
+} InputRule;
+
+typedef struct {
 	uint32_t mod;
 	xkb_keysym_t keysym;
 	void (*func)(const Arg *);
@@ -278,6 +284,8 @@ static void createnotify(struct wl_listener *listener, void *data);
 static void createpointer(struct wlr_pointer *pointer);
 static void createpointerconstraint(struct wl_listener *listener, void *data);
 static void createpopup(struct wl_listener *listener, void *data);
+static void createtogglepointer(struct wlr_pointer *pointer);
+static void createungroupedkeyboard(struct wlr_keyboard *keyboard);
 static void cursorconstrain(struct wlr_pointer_constraint_v1 *constraint);
 static void cursorframe(struct wl_listener *listener, void *data);
 static void cursorwarptohint(void);
@@ -359,6 +367,7 @@ static void tile(Monitor *m);
 static void togglebar(const Arg *arg);
 static void togglefloating(const Arg *arg);
 static void togglefullscreen(const Arg *arg);
+static void togglepointer(const Arg *arg);
 static void toggletag(const Arg *arg);
 static void toggleview(const Arg *arg);
 static void unlocksession(struct wl_listener *listener, void *data);
@@ -461,6 +470,7 @@ static struct wl_listener new_session_lock = {.notify = locksession};
 
 static struct zdwl_ipc_manager_v2_interface dwl_manager_implementation = {.release = dwl_ipc_manager_release, .get_output = dwl_ipc_manager_get_output};
 static struct zdwl_ipc_output_v2_interface dwl_output_implementation = {.release = dwl_ipc_output_release, .set_tags = dwl_ipc_output_set_tags, .set_layout = dwl_ipc_output_set_layout, .set_client_tags = dwl_ipc_output_set_client_tags};
+static struct libinput_device *togglepointerdevice = NULL;
 
 #ifdef XWAYLAND
 static void activatex11(struct wl_listener *listener, void *data);
@@ -1254,6 +1264,33 @@ createpopup(struct wl_listener *listener, void *data)
 }
 
 void
+createtogglepointer(struct wlr_pointer *pointer)
+{
+	struct libinput_device *device;
+
+	createpointer(pointer);
+
+	if (wlr_input_device_is_libinput(&pointer->base)
+			&& (device = wlr_libinput_get_device_handle(&pointer->base))) {
+		togglepointerdevice = device;
+	}
+}
+
+void
+createungroupedkeyboard(struct wlr_keyboard *keyboard)
+{
+	/* for keyboards that need their own keyboard group */
+	KeyboardGroup *group = createkeyboardgroup();
+
+	/* Set the keymap to match the group keymap */
+	wlr_keyboard_set_keymap(keyboard, group->wlr_group->keyboard.keymap);
+	LISTEN(&keyboard->base.events.destroy, &group->destroy, destroykeyboardgroup);
+
+	/* Add the new keyboard to the group */
+	wlr_keyboard_group_add_keyboard(group->wlr_group, keyboard);
+}
+
+void
 cursorconstrain(struct wlr_pointer_constraint_v1 *constraint)
 {
 	if (active_constraint == constraint)
@@ -1861,13 +1898,27 @@ inputdevice(struct wl_listener *listener, void *data)
 	 * available. */
 	struct wlr_input_device *device = data;
 	uint32_t caps;
+	const InputRule *r;
 
 	switch (device->type) {
 	case WLR_INPUT_DEVICE_KEYBOARD:
-		createkeyboard(wlr_keyboard_from_input_device(device));
+		for (r = inputrules; r < END(inputrules); r++) {
+			if (!r->name || strstr(device->name, r->name)) {
+				if (r->kbcreate)
+					r->kbcreate(wlr_keyboard_from_input_device(device));
+				break;
+			}
+		}
+
 		break;
 	case WLR_INPUT_DEVICE_POINTER:
-		createpointer(wlr_pointer_from_input_device(device));
+		for (r = inputrules; r < END(inputrules); r++) {
+			if (!r->name || strstr(device->name, r->name)) {
+				if (r->ptrcreate)
+					r->ptrcreate(wlr_pointer_from_input_device(device));
+				break;
+			}
+		}
 		break;
 	default:
 		/* TODO handle other input device types */
@@ -3027,6 +3078,18 @@ togglefullscreen(const Arg *arg)
 	Client *sel = focustop(selmon);
 	if (sel)
 		setfullscreen(sel, !sel->isfullscreen);
+}
+
+void
+togglepointer(const Arg *arg)
+{
+	if (!togglepointerdevice)
+		return;
+
+	libinput_device_config_send_events_set_mode(
+		togglepointerdevice,
+		libinput_device_config_send_events_get_mode(togglepointerdevice) ^ LIBINPUT_CONFIG_SEND_EVENTS_DISABLED
+	);
 }
 
 void
