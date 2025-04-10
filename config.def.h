@@ -160,6 +160,7 @@ static const Key keys[] = {
 	{ MODKEY|WLR_MODIFIER_SHIFT, XKB_KEY_Escape,    quit,             {0} },
 	{ MODKEY|WLR_MODIFIER_SHIFT, XKB_KEY_D,         togglefloating,   {0} },
 	{ MODKEY|WLR_MODIFIER_SHIFT, XKB_KEY_F,         togglefullscreen, {0} },
+	{ MODKEY,                    XKB_KEY_f,         togglefakefullscreen, {0} },
 	{ MODKEY,                    XKB_KEY_h,         focusstack,       {.i = -1} },
 	{ MODKEY|WLR_MODIFIER_SHIFT, XKB_KEY_H,         zoom,             {0} },
 	{ MODKEY,                    XKB_KEY_j,         focusstack,       {.i = +1} },

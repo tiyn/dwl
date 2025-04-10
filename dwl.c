@@ -139,7 +139,7 @@ typedef struct {
 #endif
 	unsigned int bw;
 	uint32_t tags;
-	int isfloating, isurgent, isfullscreen;
+	int isfloating, isurgent, isfullscreen, isfakefullscreen;
 	uint32_t resize; /* configure serial of a pending resize */
 } Client;
 
@@ -352,6 +352,7 @@ static void run(char *startup_cmd);
 static void setcursor(struct wl_listener *listener, void *data);
 static void setcursorshape(struct wl_listener *listener, void *data);
 static void setfloating(Client *c, int floating);
+static void setfakefullscreen(Client *c, int fullscreen);
 static void setfullscreen(Client *c, int fullscreen);
 static void setlayout(const Arg *arg);
 static void setmfact(const Arg *arg);
@@ -368,6 +369,7 @@ static void togglebar(const Arg *arg);
 static void togglefloating(const Arg *arg);
 static void togglefullscreen(const Arg *arg);
 static void togglepointer(const Arg *arg);
+static void togglefakefullscreen(const Arg *arg);
 static void toggletag(const Arg *arg);
 static void toggleview(const Arg *arg);
 static void unlocksession(struct wl_listener *listener, void *data);
@@ -2496,6 +2498,17 @@ requeststartdrag(struct wl_listener *listener, void *data)
 }
 
 void
+setfakefullscreen(Client *c, int fullscreen)
+{
+	c->isfakefullscreen = fullscreen;
+	if (!c->mon)
+		return;
+	if (c->isfullscreen)
+		setfullscreen(c, 0);
+	client_set_fullscreen(c, fullscreen);
+}
+
+void
 requestmonstate(struct wl_listener *listener, void *data)
 {
 	struct wlr_output_event_request_state *event = data;
@@ -3090,6 +3103,14 @@ togglepointer(const Arg *arg)
 		togglepointerdevice,
 		libinput_device_config_send_events_get_mode(togglepointerdevice) ^ LIBINPUT_CONFIG_SEND_EVENTS_DISABLED
 	);
+}
+
+void
+togglefakefullscreen(const Arg *arg)
+{
+	Client *sel = focustop(selmon);
+	if (sel)
+		setfakefullscreen(sel, !sel->isfakefullscreen);
 }
 
 void
