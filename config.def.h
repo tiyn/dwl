@@ -16,7 +16,7 @@ static const float urgentcolor[]           = COLOR(0xff0000ff);
 static const float fullscreen_bg[]         = {0.1f, 0.1f, 0.1f, 1.0f}; /* You can also use glsl colors */
 
 /* tagging - TAGCOUNT must be no greater than 31 */
-#define TAGCOUNT (9)
+#define TAGCOUNT (10)
 
 /* logging */
 static int log_level = WLR_ERROR;
@@ -38,10 +38,10 @@ static const Rule rules[] = {
 	{ "threema-web",      NULL,                                1 << 4, 0,   1 },
 	{ "thunderbird",      NULL,                                1 << 4, 0,   1 },
 	{ "Sonixd",           NULL,                                1 << 8, 0,   1 },
-	{ "KeePassXC",        NULL,                                1 << 8, 0,   0 },
+	{ "KeePassXC",        NULL,                                1 << 9, 0,   0 },
 	{ "KeePassXC",        "Unlock Database - KeePassXC",       1 << 1, 1,   0 },
-	{ "easyeffects",      NULL,                                1 << 8, 0,   1 },
-	{ "pavucontrol",      NULL,                                1 << 8, 0,   1 },
+	{ "easyeffects",      NULL,                                1 << 9, 0,   1 },
+	{ "pavucontrol",      NULL,                                1 << 9, 0,   1 },
         { "nextcloud",        NULL,                                     0, 1,  -1 },
 };
 
@@ -181,8 +181,6 @@ static const Key keys[] = {
 	{ MODKEY|WLR_MODIFIER_SHIFT, XKB_KEY_V,         setlayout,        {.v = &layouts[3]} },
 	{ MODKEY|WLR_MODIFIER_SHIFT, XKB_KEY_S,         setlayout,        {.v = &layouts[4]} },
 	{ MODKEY|WLR_MODIFIER_SHIFT, XKB_KEY_H,         setmfact,         {.f = -0.05f} },
-	{ MODKEY,                    XKB_KEY_0,         view,             {.ui = ~0} },
-	{ MODKEY|WLR_MODIFIER_SHIFT, XKB_KEY_equal,     tag,              {.ui = ~0} },
 	{ MODKEY,                    XKB_KEY_comma,     focusmon,         {.i = WLR_DIRECTION_LEFT} },
 	{ MODKEY,                    XKB_KEY_period,    focusmon,         {.i = WLR_DIRECTION_RIGHT} },
 	{ MODKEY|WLR_MODIFIER_SHIFT, XKB_KEY_less,      tagmon,           {.i = WLR_DIRECTION_LEFT} },
@@ -192,6 +190,7 @@ static const Key keys[] = {
 	{ MODKEY,                    XKB_KEY_f,          spawn,          {.v = filecmd} },
 	{ MODKEY,                    XKB_KEY_Return,     spawn,          {.v = termcmd} },
 	{ MODKEY,                    XKB_KEY_space,      togglepointer,  {0} },
+	{ WLR_MODIFIER_ALT,          XKB_KEY_Tab,        focusstack,     {.i = +1} },
 
         TAGKEYS(XKB_KEY_1, XKB_KEY_exclam,      0),
         TAGKEYS(XKB_KEY_2, XKB_KEY_quotedbl,    1),
@@ -202,7 +201,7 @@ static const Key keys[] = {
         TAGKEYS(XKB_KEY_7, XKB_KEY_slash,       6),
         TAGKEYS(XKB_KEY_8, XKB_KEY_parenleft,   7),
         TAGKEYS(XKB_KEY_9, XKB_KEY_parenright,  8),
-        // TAGKEYS(XKB_KEY_0, XKB_KEY_equal,       9),
+        TAGKEYS(XKB_KEY_0, XKB_KEY_equal,       9),
 	// TAGKEYS(          XKB_KEY_1, XKB_KEY_exclam,                     0),
 	// TAGKEYS(          XKB_KEY_2, XKB_KEY_quotedbl,                   1),
 	// TAGKEYS(          XKB_KEY_3, XKB_KEY_paragraph,                  2),
