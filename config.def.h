@@ -51,8 +51,8 @@ static const Layout layouts[] = {
 	{ "M",      monocle },
 	{ "T",      tile },
 	{ "D",      deck },
-	{ "TTT",     bstack },
-	{ "===",     bstackhoriz },
+	{ "B",      bstack },
+	{ "B",      bstackhoriz },
 	{ "F",      NULL },    /* no layout function means floating behavior */
 };
 
@@ -162,7 +162,7 @@ static const Key keys[] = {
 	{ MODKEY|WLR_MODIFIER_SHIFT, XKB_KEY_Escape,    quit,             {0} },
 	{ MODKEY|WLR_MODIFIER_SHIFT, XKB_KEY_D,         togglefloating,   {0} },
 	{ MODKEY|WLR_MODIFIER_SHIFT, XKB_KEY_F,         togglefullscreen, {0} },
-	{ MODKEY,                    XKB_KEY_f,         togglefakefullscreen, {0} },
+	{ MODKEY|WLR_MODIFIER_SHIFT|WLR_MODIFIER_CTRL,  XKB_KEY_F,    togglefakefullscreen, {0} },
 	{ MODKEY,                    XKB_KEY_h,         focusstack,       {.i = -1} },
 	{ MODKEY|WLR_MODIFIER_SHIFT, XKB_KEY_H,         zoom,             {0} },
 	{ MODKEY,                    XKB_KEY_j,         focusstack,       {.i = +1} },
@@ -178,8 +178,8 @@ static const Key keys[] = {
 	{ MODKEY|WLR_MODIFIER_SHIFT, XKB_KEY_Q,         killclient,       {0} },
 	{ MODKEY|WLR_MODIFIER_SHIFT, XKB_KEY_T,         setlayout,        {.v = &layouts[1]} },
 	{ MODKEY|WLR_MODIFIER_SHIFT, XKB_KEY_C,         setlayout,        {.v = &layouts[2]} },
-	{ MODKEY|WLR_MODIFIER_SHIFT, XKB_KEY_U,         setlayout,        {.v = &layouts[3]} },
-	{ MODKEY|WLR_MODIFIER_SHIFT, XKB_KEY_V,         setlayout,        {.v = &layouts[4]} },
+	{ MODKEY|WLR_MODIFIER_SHIFT, XKB_KEY_V,         setlayout,        {.v = &layouts[3]} },
+	{ MODKEY|WLR_MODIFIER_SHIFT, XKB_KEY_S,         setlayout,        {.v = &layouts[4]} },
 	{ MODKEY|WLR_MODIFIER_SHIFT, XKB_KEY_H,         setmfact,         {.f = -0.05f} },
 	{ MODKEY,                    XKB_KEY_0,         view,             {.ui = ~0} },
 	{ MODKEY|WLR_MODIFIER_SHIFT, XKB_KEY_equal,     tag,              {.ui = ~0} },
