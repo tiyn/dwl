@@ -436,7 +436,7 @@ static struct wl_listener request_start_drag = {.notify = requeststartdrag};
 static struct wl_listener start_drag = {.notify = startdrag};
 static struct wl_listener new_session_lock = {.notify = locksession};
 
-static const struct xkb_rule_names en_rules = {.layout = "us"};
+static const struct xkb_rule_names en_rules = {.layout = "de"};
 static struct xkb_context *en_context;
 static struct xkb_keymap *en_keymap;
 static struct xkb_state *en_state;
