@@ -72,13 +72,21 @@ static const MonitorRule monrules[] = {
 };
 
 /* keyboard */
-static const struct xkb_rule_names xkb_rules = {
-	/* can specify fields: rules, model, layout, variant, options */
-	/* example:
-	.options = "ctrl:nocaps",
-	*/
-        .layout = "de",
-	.options = NULL,
+static const struct xkb_rule_names xkb_rules[] = {
+	{
+		.layout = "de",
+	        .options = NULL,
+	},
+	{
+		.layout = "de",
+	        .variant = "nodeadkeys",
+	        .options = NULL,
+	},
+	{
+	        .layout = "de",
+	        .variant = "ru",
+	        .options = NULL,
+	}
 };
 
 /* input devices */
@@ -181,6 +189,7 @@ static const Key keys[] = {
 	{ MODKEY|WLR_MODIFIER_SHIFT, XKB_KEY_V,         setlayout,        {.v = &layouts[3]} },
 	{ MODKEY|WLR_MODIFIER_SHIFT, XKB_KEY_S,         setlayout,        {.v = &layouts[4]} },
 	{ MODKEY|WLR_MODIFIER_SHIFT, XKB_KEY_H,         setmfact,         {.f = -0.05f} },
+	{ MODKEY|WLR_MODIFIER_SHIFT, XKB_KEY_L,         incxkbrules,    {.i = +1} },
 	{ MODKEY,                    XKB_KEY_comma,     focusmon,         {.i = WLR_DIRECTION_LEFT} },
 	{ MODKEY,                    XKB_KEY_period,    focusmon,         {.i = WLR_DIRECTION_RIGHT} },
 	{ MODKEY|WLR_MODIFIER_SHIFT, XKB_KEY_semicolon, tagmon,           {.i = WLR_DIRECTION_LEFT} },
