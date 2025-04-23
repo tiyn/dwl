@@ -14,6 +14,8 @@ static const float focuscolor[]            = COLOR(0x005577ff);
 static const float urgentcolor[]           = COLOR(0xff0000ff);
 /* This conforms to the xdg-protocol. Set the alpha to zero to restore the old behavior */
 static const float fullscreen_bg[]         = {0.1f, 0.1f, 0.1f, 1.0f}; /* You can also use glsl colors */
+static int enableautoswallow = 0; /* enables autoswallowing newly spawned clients */
+static float swallowborder = 1.0f; /* add this multiplied by borderpx to border when a client is swallowed */
 
 /* tagging - TAGCOUNT must be no greater than 31 */
 #define TAGCOUNT (10)
@@ -23,26 +25,29 @@ static int log_level = WLR_ERROR;
 
 /* NOTE: ALWAYS keep a rule declared even if you don't use rules (e.g leave at least one example) */
 static const Rule rules[] = {
-	/* app_id             title       tags mask     isfloating   monitor */
+	/* app_id             title       tags mask     isfloating   isterm   noswallow   monitor */
 	/* examples: */
-	{ "firefox",          NULL,                                1 << 1, 0,  -1 },
-	{ "zen",              NULL,                                1 << 1, 0,  -1 },
-	{ "Lutris",           NULL,                                1 << 2, 0,   0 },
-	{ "zenity",           NULL,                                     0, 1,  -1 },
-	{ "steam",            NULL,                                1 << 2, 0,   0 },
-	{ "discord",          NULL,                                1 << 2, 0,   1 },
-	{ "TeamSpeak",        NULL,                                1 << 2, 0,   1 },
-	{ "Element",          NULL,                                1 << 2, 0,   1 },
-	{ "Signal",           NULL,                                1 << 4, 0,   1 },
-	{ "TelegramDesktop",  NULL,                                1 << 4, 0,   1 },
-	{ "threema-web",      NULL,                                1 << 4, 0,   1 },
-	{ "thunderbird",      NULL,                                1 << 4, 0,   1 },
-	{ "Sonixd",           NULL,                                1 << 8, 0,   1 },
-	{ "KeePassXC",        NULL,                                1 << 9, 0,   0 },
-	{ "KeePassXC",        "Unlock Database - KeePassXC",       1 << 1, 1,   0 },
-	{ "easyeffects",      NULL,                                1 << 9, 0,   1 },
-	{ "pavucontrol",      NULL,                                1 << 9, 0,   1 },
-        { "nextcloud",        NULL,                                     0, 1,  -1 },
+	{ "firefox",          NULL,                                1 << 1, 0, 0, 0, -1 },
+	{ "zen",              NULL,                                1 << 1, 0, 0, 0, -1 },
+	{ "Lutris",           NULL,                                1 << 2, 0, 0, 0,  0 },
+	{ "zenity",           NULL,                                     0, 1, 0, 0, -1 },
+	{ "steam",            NULL,                                1 << 2, 0, 0, 0,  0 },
+	{ "discord",          NULL,                                1 << 2, 0, 0, 0,  1 },
+	{ "TeamSpeak",        NULL,                                1 << 2, 0, 0, 0,  1 },
+	{ "Element",          NULL,                                1 << 2, 0, 0, 0,  1 },
+	{ "Signal",           NULL,                                1 << 4, 0, 0, 0,  1 },
+	{ "TelegramDesktop",  NULL,                                1 << 4, 0, 0, 0,  1 },
+	{ "threema-web",      NULL,                                1 << 4, 0, 0, 0,  1 },
+	{ "thunderbird",      NULL,                                1 << 4, 0, 0, 0,  1 },
+	{ "Sonixd",           NULL,                                1 << 8, 0, 0, 0,  1 },
+	{ "KeePassXC",        NULL,                                1 << 9, 0, 0, 0,  0 },
+	{ "KeePassXC",        "Unlock Database - KeePassXC",       1 << 1, 1, 0, 0,  0 },
+	{ "easyeffects",      NULL,                                1 << 9, 0, 0, 0,  1 },
+	{ "pavucontrol",      NULL,                                1 << 9, 0, 0, 0,  1 },
+        { "nextcloud",        NULL,                                     0, 1, 0, 0, -1 },
+        { "st",               NULL,                                     0, 0, 1, 0, -1 },
+        { "vifm",             NULL,                                     0, 0, 1, 0, -1 },
+        { "vifmrun",          NULL,                                     0, 0, 1, 0, -1 },
 };
 
 /* layout(s) */
