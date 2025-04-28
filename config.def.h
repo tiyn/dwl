@@ -34,6 +34,7 @@ static const Rule rules[] = {
 	{ "steam",            NULL,                                1 << 2, 0, 0, 0,  0 },
 	{ "discord",          NULL,                                1 << 2, 0, 0, 0,  1 },
 	{ "TeamSpeak",        NULL,                                1 << 2, 0, 0, 0,  1 },
+	{ "Mattermost",       NULL,                                1 << 2, 0, 0, 0,  1 },
 	{ "Element",          NULL,                                1 << 2, 0, 0, 0,  1 },
 	{ "Signal",           NULL,                                1 << 4, 0, 0, 0,  1 },
 	{ "TelegramDesktop",  NULL,                                1 << 4, 0, 0, 0,  1 },
