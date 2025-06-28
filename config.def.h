@@ -39,7 +39,7 @@ static const Rule rules[] = {
 	{ "Signal",               NULL,                                1 << 4, 0, 0, 0,  1 },
 	{ "telegram",             NULL,                                1 << 4, 0, 0, 0,  1 },
 	{ "threema-web",          NULL,                                1 << 4, 0, 0, 0,  1 },
-	{ "Threema Beta",         NULL,                                1 << 4, 0, 0, 0,  1 },
+	{ "Threema",              NULL,                                1 << 4, 0, 0, 0,  1 },
 	{ "thunderbird",          NULL,                                1 << 4, 0, 0, 0,  1 },
 	{ "Sonixd",               NULL,                                1 << 8, 0, 0, 0,  1 },
 	{ "KeePassXC",            NULL,                                1 << 9, 0, 0, 0,  0 },
