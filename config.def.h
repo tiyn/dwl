@@ -25,29 +25,31 @@ static int log_level = WLR_ERROR;
 
 /* NOTE: ALWAYS keep a rule declared even if you don't use rules (e.g leave at least one example) */
 static const Rule rules[] = {
-	/* app_id             title       tags mask     isfloating   isterm   noswallow   monitor */
+	/* app_id                 title       tags mask     isfloating   isterm   noswallow   monitor */
 	/* examples: */
-	{ "firefox",          NULL,                                1 << 1, 0, 0, 0, -1 },
-	{ "zen",              NULL,                                1 << 1, 0, 0, 0, -1 },
-	{ "Lutris",           NULL,                                1 << 2, 0, 0, 0,  0 },
-	{ "zenity",           NULL,                                     0, 1, 0, 0, -1 },
-	{ "steam",            NULL,                                1 << 2, 0, 0, 0,  0 },
-	{ "discord",          NULL,                                1 << 2, 0, 0, 0,  1 },
-	{ "TeamSpeak",        NULL,                                1 << 2, 0, 0, 0,  1 },
-	{ "Element",          NULL,                                1 << 2, 0, 0, 0,  1 },
-	{ "Signal",           NULL,                                1 << 4, 0, 0, 0,  1 },
-	{ "TelegramDesktop",  NULL,                                1 << 4, 0, 0, 0,  1 },
-	{ "threema-web",      NULL,                                1 << 4, 0, 0, 0,  1 },
-	{ "thunderbird",      NULL,                                1 << 4, 0, 0, 0,  1 },
-	{ "Sonixd",           NULL,                                1 << 8, 0, 0, 0,  1 },
-	{ "KeePassXC",        NULL,                                1 << 9, 0, 0, 0,  0 },
-	{ "KeePassXC",        "Unlock Database - KeePassXC",       1 << 1, 1, 0, 0,  0 },
-	{ "easyeffects",      NULL,                                1 << 9, 0, 0, 0,  1 },
-	{ "pavucontrol",      NULL,                                1 << 9, 0, 0, 0,  1 },
-        { "nextcloud",        NULL,                                     0, 1, 0, 0, -1 },
-        { "st",               NULL,                                     0, 0, 1, 0, -1 },
-        { "vifm",             NULL,                                     0, 0, 1, 0, -1 },
-        { "vifmrun",          NULL,                                     0, 0, 1, 0, -1 },
+	{ "firefox",              NULL,                                1 << 1, 0, 0, 0, -1 },
+	{ "zen",                  NULL,                                1 << 1, 0, 0, 0, -1 },
+	{ "Lutris",               NULL,                                1 << 2, 0, 0, 0,  0 },
+	{ "zenity",               NULL,                                     0, 1, 0, 0, -1 },
+	{ "steam",                NULL,                                1 << 2, 0, 0, 0,  0 },
+	{ "discord",              NULL,                                1 << 2, 0, 0, 0,  1 },
+	{ "TeamSpeak",            NULL,                                1 << 2, 0, 0, 0,  1 },
+	{ "Mattermost",           NULL,                                1 << 2, 0, 0, 0,  1 },
+	{ "Element",              NULL,                                1 << 2, 0, 0, 0,  1 },
+	{ "signal",               NULL,                                1 << 4, 0, 0, 0,  1 },
+	{ "telegram",             NULL,                                1 << 4, 0, 0, 0,  1 },
+	{ "Threema",              NULL,                                1 << 4, 0, 0, 0,  1 },
+	{ "Thunderbird",          NULL,                                1 << 4, 0, 0, 0,  1 },
+	{ "Sonixd",               NULL,                                1 << 8, 0, 0, 0,  1 },
+	{ "KeePassXC",            "Unlock Database - KeePassXC",       1 << 1, 1, 0, 0,  0 },
+	{ "KeePassXC",            NULL,                                1 << 9, 0, 0, 0,  0 },
+	{ "com.obsproject.Studio",NULL,                                1 << 7, 0, 0, 0,  1 },
+	{ "easyeffects",          NULL,                                1 << 9, 0, 0, 0,  1 },
+	{ "pavucontrol",          NULL,                                1 << 9, 0, 0, 0,  1 },
+        { "nextcloud",            NULL,                                     0, 1, 0, 0, -1 },
+        { "st",                   NULL,                                     0, 0, 1, 0, -1 },
+        { "vifm",                 NULL,                                     0, 0, 1, 0, -1 },
+        { "vifmrun",              NULL,                                     0, 0, 1, 0, -1 },
 };
 
 /* layout(s) */
