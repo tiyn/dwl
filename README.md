@@ -34,8 +34,8 @@ The list below shows the currently applied patches to the master branch.
 There are various shortcuts and hotkeys used in this version. Included in my
 build are the following.
 
-| ModKey | Shift | Key | Function |
-| ------ | ----- | --- | -------- |
+| ModKey | Shift | Key         | Function                                                |
+| ------ | ----- | ----------- | ------------------------------------------------------- |
 | Super  |       | h           | (Tiling/Deck) Focus window higher in stack than current |
 | Super  |       | j           | (Tiling/Deck) Focus window lower in stack than current  |
 | Super  |       | k           | (Tiling/Deck) Focus window higher in stack than current |
