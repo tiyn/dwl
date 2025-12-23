@@ -83,17 +83,17 @@ static const MonitorRule monrules[] = {
 static const struct xkb_rule_names xkb_rules[] = {
 	{
 		.layout = "de",
-	        .options = NULL,
+	        .options = "compose:rctrl",
 	},
 	{
 		.layout = "de",
 	        .variant = "nodeadkeys",
-	        .options = NULL,
+	        .options = "compose:rctrl",
 	},
 	{
 	        .layout = "de",
 	        .variant = "ru",
-	        .options = NULL,
+	        .options = "compose:rctrl",
 	}
 };
 
