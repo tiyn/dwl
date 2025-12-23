@@ -33,6 +33,7 @@ static const Rule rules[] = {
 	{ "zenity",               NULL,                                     0, 1, 0, 0, -1 },
 	{ "steam",                NULL,                                1 << 2, 0, 0, 0,  0 },
 	{ "discord",              NULL,                                1 << 2, 0, 0, 0,  1 },
+	{ "vesktop",              NULL,                                1 << 2, 0, 0, 0,  1 },
 	{ "TeamSpeak",            NULL,                                1 << 2, 0, 0, 0,  1 },
 	{ "Mattermost",           NULL,                                1 << 2, 0, 0, 0,  1 },
 	{ "Element",              NULL,                                1 << 2, 0, 0, 0,  1 },
@@ -82,17 +83,17 @@ static const MonitorRule monrules[] = {
 static const struct xkb_rule_names xkb_rules[] = {
 	{
 		.layout = "de",
-	        .options = NULL,
+	        .options = "compose:rctrl",
 	},
 	{
 		.layout = "de",
 	        .variant = "nodeadkeys",
-	        .options = NULL,
+	        .options = "compose:rctrl",
 	},
 	{
 	        .layout = "de",
 	        .variant = "ru",
-	        .options = NULL,
+	        .options = "compose:rctrl",
 	}
 };
 
