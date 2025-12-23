@@ -1,199 +1,77 @@
-# dwl - dwm for Wayland
+# dwl
 
-Join us on our IRC channel: [#dwl on Libera Chat]  
-Or on the community-maintained [Discord server].
+This is my patched version of dwl.
+This belongs to my larbs installation script and depends heavily on its scripts
+and programs.
+It is supposed to work in the environment after the
+[larbs base installation](https://github.com/tiyn/larbs).
+This repository is set up according to the
+[suckless entry of my wiki](https://github.com/tiyn/wiki/blob/master/wiki/linux/suckless.md).
 
-dwl is a compact, hackable compositor for [Wayland] based on [wlroots]. It is
-intended to fill the same space in the Wayland world that dwm does in X11,
-primarily in terms of functionality, and secondarily in terms of
-philosophy. Like dwm, dwl is:
+## Patches
 
-- Easy to understand, hack on, and extend with patches
-- One C source file (or a very small number) configurable via `config.h`
-- Tied to as few external dependencies as possible
+The list below shows the currently applied patches to the master branch.
 
-## Getting Started:
+- attachtop.patch (new clients are attached at the top of the stack)
+- bottomstack.patch (adds bottomstack and bottomstackhorizontal layouts)
+- deck.patch (adds deck layout with one master and stacked clients)
+- en-keycodes.patch (always uses the english keycodes)
+- fakefullscreenclient.patch (enables per-client fake fullscreen)
+- foreign-toplevel-management.patch (allows external programs to query/control windows)
+- hide-behind-monocle.patch (hides unfocused windows in monocle layout)
+- hide-behind-fullscreen.patch (hides other windows behind fullscreen clients)
+- inputdevicerules-v0.7.patch (adds per-input-device configuration rules)
+- ipc.patch (adds IPC for external control and scripting)
+- pertag.patch (stores layout, mfact, nmaster, bar state per tag)
+- swallow.patch (replaces terminal with spawned application)
+- togglekblayoutandoptions.patch (toggles keyboard layouts and XKB options at runtime)
+- unclutter.patch (hides cursor after inactivity)
+- warpcursor.patch (moves cursor to the focused window)
+- xwayland-handle-minimize.patch (improves minimize/restore handling for XWayland)
 
-### Latest semi-stable [release]
-This is probably where you want to start. This builds against the dependent
-packages' versions currently shipping in major distributions. If your
-distribution's wlroots version is older, use an earlier dwl [release] or [0.x
-branch].
+## Hotkeys
 
-### Development branch [main]
-Active development progresses on the `main` branch. The `main` branch is built
-against a late (and often changing) git commit of wlroots. While the adventurous
-are welcome to use `main`, it is a rocky road. Using `main` requires that the
-user be willing to chase git commits of wlroots. Testing development pull
-requests may involve merging unmerged pull requests in [wlroots]' git repository
-and/or git commits of wayland.
-  
-### Building dwl
-dwl has the following dependencies:
-- libinput
-- wayland
-- wlroots (compiled with the libinput backend)
-- xkbcommon
-- wayland-protocols (compile-time only)
-- pkg-config (compile-time only)
+There are various shortcuts and hotkeys used in this version. Included in my
+build are the following.
 
-dwl has the following additional dependencies if XWayland support is enabled:
-- libxcb
-- libxcb-wm
-- wlroots (compiled with X11 support)
-- Xwayland (runtime only)
+| ModKey | Shift | Key | Function |
+| ------ | ----- | --- | -------- |
+| Super  |       | h           | (Tiling/Deck) Focus window higher in stack than current |
+| Super  |       | j           | (Tiling/Deck) Focus window lower in stack than current  |
+| Super  |       | k           | (Tiling/Deck) Focus window higher in stack than current |
+| Super  |       | l           | (Tiling/Deck) Focus window lower in stack than current  |
+| Super  |       | 1/2/.../9/0 | Show tag 1/2/.../9/0                                    |
+| Super  |       | .           | Show monitor lower in stack                             |
+| Super  |       | ,           | Show monitor higher in stack                            |
+| Super  | Shift | Escape      | Quit dwl with call for confirmation                     |
+| Super  | Shift | c           | Enable deck(/card) layout                               |
+| Super  | Shift | d           | Toggle floating/tiled for selected window               |
+| Super  | Shift | f           | Toggle fullscreen                                       |
+| Super  | Shift | h           | (Tiling/Deck) Make current window the master window     |
+| Super  | Shift | j           | (Tiling/Deck) Make current window the master window     |
+| Super  | Shift | k           | (Tiling/Deck) Make current window the master window     |
+| Super  | Shift | l           | (Keyboard) Cycle through the keymap layouts             |
+| Super  | Shift | m           | Enable monocle layout                                   |
+| Super  | Shift | o           | (Tiling/Deck) Increase master window size               |
+| Super  | Shift | q           | Close current window                                    |
+| Super  | Shift | t           | Enable tiling layout                                    |
+| Super  | Shift | u           | Enable bottomstack layout                               |
+| Super  | Shift | v           | Enable bottomstackhorizontal layout                     |
+| Super  | Shift | z           | (Tiling/Deck) Decrease master window size               |
+| Super  | Shift | 1/2/.../9/0 | Add current window to tag 1/2/.../9/0                   |
+| Super  | Shift | .           | Add to monitor lower in stack                           |
+| Super  | Shift | ,           | Add to monitor higher in stack                          |
+| Alt    |       | Tab         | (Tiling/Deck) Focus window lower in stack than current  |
 
-Install these (and their `-devel` versions if your distro has separate
-development packages) and run `make`. If you wish to build against a released
-version of wlroots (*you probably do*), use a [release] or a [0.x branch]. If
-you want to use the unstable development `main` branch, you need to use the git
-version of [wlroots].
+Additionally the right hand side control key is set to be used as the compose key.
 
-To enable XWayland, you should uncomment its flags in `config.mk`.
+## Installation
 
-## Configuration
+The following programs are required to be installed for full functionality.
 
-All configuration is done by editing `config.h` and recompiling, in the same
-manner as dwm. There is no way to separately restart the window manager in
-Wayland without restarting the entire display server, so any changes will take
-effect the next time dwl is executed.
+- [dmenu](https://github.com/tiyn/dmenu)
 
-As in the dwm community, we encourage users to share patches they have
-created. Check out the [dwl-patches] repository!
+The most basic way is to clone the repository and then invoke make.
 
-## Running dwl
-
-dwl can be run on any of the backends supported by wlroots. This means you can
-run it as a separate window inside either an X11 or Wayland session, as well as
-directly from a VT console. Depending on your distro's setup, you may need to
-add your user to the `video` and `input` groups before you can run dwl on a
-VT. If you are using `elogind` or `systemd-logind` you need to install polkit;
-otherwise you need to add yourself in the `seat` group and enable/start the
-seatd daemon.
-
-When dwl is run with no arguments, it will launch the server and begin handling
-any shortcuts configured in `config.h`. There is no status bar or other
-decoration initially; these are instead clients that can be run within the
-Wayland session. Do note that the default background color is black. This can be
-modified in `config.h`.
-
-If you would like to run a script or command automatically at startup, you can
-specify the command using the `-s` option. This command will be executed as a
-shell command using `/bin/sh -c`.  It serves a similar function to `.xinitrc`,
-but differs in that the display server will not shut down when this process
-terminates. Instead, dwl will send this process a SIGTERM at shutdown and wait
-for it to terminate (if it hasn't already). This makes it ideal for execing into
-a user service manager like [s6], [anopa], [runit], [dinit], or [`systemd
---user`].
-
-Note: The `-s` command is run as a *child process* of dwl, which means that it
-does not have the ability to affect the environment of dwl or of any processes
-that it spawns. If you need to set environment variables that affect the entire
-dwl session, these must be set prior to running dwl. For example, Wayland
-requires a valid `XDG_RUNTIME_DIR`, which is usually set up by a session manager
-such as `elogind` or `systemd-logind`.  If your system doesn't do this
-automatically, you will need to configure it prior to launching `dwl`, e.g.:
-
-    export XDG_RUNTIME_DIR=/tmp/xdg-runtime-$(id -u)
-    mkdir -p $XDG_RUNTIME_DIR
-    dwl
-
-### Status information
-
-Information about selected layouts, current window title, app-id, and
-selected/occupied/urgent tags is written to the stdin of the `-s` command (see
-the `printstatus()` function for details).  This information can be used to
-populate an external status bar with a script that parses the
-information. Failing to read this information will cause dwl to block, so if you
-do want to run a startup command that does not consume the status information,
-you can close standard input with the `<&-` shell redirection, for example:
-
-    dwl -s 'foot --server <&-'
-
-If your startup command is a shell script, you can achieve the same inside the
-script with the line
-
-    exec <&-
-
-To get a list of status bars that work with dwl consult our [wiki].
-
-## Replacements for X applications
-
-You can find a [list of useful resources on our wiki].
-
-## Background
-
-dwl is not meant to provide every feature under the sun. Instead, like dwm, it
-sticks to features which are necessary, simple, and straightforward to implement
-given the base on which it is built. Implemented default features are:
-
-- Any features provided by dwm/Xlib: simple window borders, tags, keybindings,
-  client rules, mouse move/resize. Providing a built-in status bar is an
-  exception to this goal, to avoid dependencies on font rendering and/or drawing
-  libraries when an external bar could work well.
-- Configurable multi-monitor layout support, including position and rotation
-- Configurable HiDPI/multi-DPI support
-- Idle-inhibit protocol which lets applications such as mpv disable idle
-  monitoring
-- Provide information to external status bars via stdout/stdin
-- Urgency hints via xdg-activate protocol
-- Support screen lockers via ext-session-lock-v1 protocol
-- Various Wayland protocols
-- XWayland support as provided by wlroots (can be enabled in `config.mk`)
-- Zero flickering - Wayland users naturally expect that "every frame is perfect"
-- Layer shell popups (used by Waybar)
-- Damage tracking provided by scenegraph API
-
-Given the Wayland architecture, dwl has to implement features from dwm **and**
-the xorg-server. Because of this, it is impossible to maintain the original
-project goal of 2000 SLOC and have a reasonably complete compositor with
-features comparable to dwm. However, this does not mean that the code will grow
-indiscriminately. We will try to keep the code as small as possible.
-
-Features under consideration (possibly as patches) are:
-
-- Protocols made trivial by wlroots
-- Implement the text-input and input-method protocols to support IME once ibus
-  implements input-method v2 (see https://github.com/ibus/ibus/pull/2256 and
-  https://codeberg.org/dwl/dwl/pulls/235)
-
-Feature *non-goals* for the main codebase include:
-
-- Client-side decoration (any more than is necessary to tell the clients not to)
-- Client-initiated window management, such as move, resize, and close, which can
-  be done through the compositor
-- Animations and visual effects
-
-## Acknowledgements
-
-dwl began by extending the TinyWL example provided (CC0) by the sway/wlroots
-developers. This was made possible in many cases by looking at how sway
-accomplished something, then trying to do the same in as suckless a way as
-possible.
-
-Many thanks to suckless.org and the dwm developers and community for the
-inspiration, and to the various contributors to the project, including:
-
-- **Devin J. Pohly for creating and nurturing the fledgling project**
-- Alexander Courtis for the XWayland implementation
-- Guido Cella for the layer-shell protocol implementation, patch maintenance,
-  and for helping to keep the project running
-- Stivvo for output management and fullscreen support, and patch maintenance
-
-
-[`systemd --user`]: https://wiki.archlinux.org/title/Systemd/User
-[#dwl on Libera Chat]: https://web.libera.chat/?channels=#dwl
-[0.7-rc1]: https://codeberg.org/dwl/dwl/releases/tag/v0.7-rc1
-[0.x branch]: https://codeberg.org/dwl/dwl/branches
-[anopa]: https://jjacky.com/anopa/
-[dinit]: https://davmac.org/projects/dinit/
-[dwl-patches]: https://codeberg.org/dwl/dwl-patches
-[list of useful resources on our wiki]: https://codeberg.org/dwl/dwl/wiki/Home#migrating-from-x
-[main]: https://codeberg.org/dwl/dwl/src/branch/main
-[release]: https://codeberg.org/dwl/dwl/releases
-[runit]: http://smarden.org/runit/faq.html#userservices
-[s6]: https://skarnet.org/software/s6/
-[wlroots]: https://gitlab.freedesktop.org/wlroots/wlroots/
-[wiki]: https://codeberg.org/dwl/dwl/wiki/Home#compatible-status-bars
-[Discord server]: https://discord.gg/jJxZnrGPWN
-[Wayland]: https://wayland.freedesktop.org/
+- `git clone https://github.com/tiyn/dwl`
+- `make clean install`
