@@ -98,6 +98,7 @@ static const struct xkb_rule_names xkb_rules[] = {
 };
 
 /* input devices */
+/* the name of touchpads can be found using `libinput listdevices | grep Touch A5` */
 static const InputRule inputrules[] = {
 	/* name                      kbcreate                 ptrcreate      */
 	/* ignore bad device - like a touchpad ;) */
